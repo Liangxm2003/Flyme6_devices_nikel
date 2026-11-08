@@ -1,0 +1,40 @@
+#!/system/bin/sh
+# Copyright (C) 2016 hoangnguyen
+#=======================================================================#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o rw,remount / 2>/dev/null
+mount -o rw,remount / / 2>/dev/null
+mount -o rw,remount rootfs 2>/dev/null
+mount -o rw,remount /system 2>/dev/null
+mount -o rw,remount /system /system 2>/dev/null
+busybox mount -o rw,remount / 2>/dev/null
+busybox mount -o rw,remount / / 2>/dev/null
+busybox mount -o rw,remount rootfs 2>/dev/null
+busybox mount -o rw,remount /system 2>/dev/null
+busybox mount -o rw,remount /system /system 2>/dev/null
+
+LS=/system/etc/H_SPEED/LOGS/HS_Kill_Media_Server.log
+
+busybox rm -f $LS
+busybox touch $LS
+
+busybox echo "# H Speed log" | busybox tee -a $LS
+busybox echo "" | busybox tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Killing media server.." | busybox tee -a $LS
+
+if [ "\$(pgrep media)" ] && [ "\$(pgrep mediaserver)" ]; then
+busybox killall -9 android.process.media;
+busybox killall -9 mediaserver;
+fi
+
+busybox echo "" | busybox tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Killing media server is done!" | busybox tee -a $LS

@@ -1,0 +1,41 @@
+#!/system/bin/sh
+# Copyright (C) 2016 hoangnguyen
+#=======================================================================#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+#=======================================================================#
+
+mount -o rw,remount / 2>/dev/null
+mount -o rw,remount / / 2>/dev/null
+mount -o rw,remount rootfs 2>/dev/null
+mount -o rw,remount /system 2>/dev/null
+mount -o rw,remount /system /system 2>/dev/null
+busybox mount -o rw,remount / 2>/dev/null
+busybox mount -o rw,remount / / 2>/dev/null
+busybox mount -o rw,remount rootfs 2>/dev/null
+busybox mount -o rw,remount /system 2>/dev/null
+busybox mount -o rw,remount /system /system 2>/dev/null
+
+LS=/system/etc/H_SPEED/LOGS/HS_IO.log
+
+busybox rm -f $LS
+busybox touch $LS
+
+busybox echo "# H Speed log" | busybox tee -a $LS
+busybox echo "" | busybox tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) Enabling I/O Scheduler Noop.." | busybox tee -a $LS
+
+echo "noop" > /sys/block/mmcblk0/queue/scheduler
+echo "noop" > /sys/block/mmcblk0boot0/queue/scheduler
+echo "noop" > /sys/block/mmcblk0boot1/queue/scheduler
+echo "noop" > /sys/block/mmcblk0rpmb/queue/scheduler
+echo "noop" > /sys/block/mmcblk1/queue/scheduler
+
+busybox echo "" | busybox tee -a $LS
+busybox echo "$( date +"%m-%d-%Y %H:%M:%S" ) I/O Scheduler Noop is enabled" | busybox tee -a $LS
