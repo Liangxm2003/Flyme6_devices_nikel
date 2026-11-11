@@ -1151,6 +1151,12 @@
     <permission android:name="android.permission.ACCESS_KEYGUARD_SECURE_STORAGE" android:protectionLevel="signature"/>
         
     <permission android:name="android.permission.MANAGE_FINGERPRINT" android:protectionLevel="system|signature"/>
+    <permission android:name="android.permission.RESET_FINGERPRINT_LOCKOUT" android:protectionLevel="signature"/>
+    <permission android:name="android.permission.CREATE_USERS" android:protectionLevel="signature"/>
+    <permission android:name="android.permission.CONFIGURE_DISPLAY_COLOR_TRANSFORM" android:protectionLevel="signature"/>
+    <permission android:name="android.permission.TABLET_MODE" android:protectionLevel="signature"/>
+    <permission android:name="android.permission.MODIFY_CELL_BROADCASTS" android:protectionLevel="system|signature"/>
+    <permission android:name="android.permission.PACKET_KEEPALIVE_OFFLOAD" android:protectionLevel="system|signature"/>
         
     <permission android:name="android.permission.CONTROL_KEYGUARD" android:protectionLevel="signature"/>
         
