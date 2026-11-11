@@ -2790,17 +2790,14 @@
     .locals 2
 
     .prologue
-    .line 1556
     iget-object v0, p0, Lcom/android/internal/widget/LockPatternUtils;->mContext:Landroid/content/Context;
 
     invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
 
-    .line 1557
-    const v1, 0x1120053
+    const v1, #android:bool@config_voice_capable#t
 
-    .line 1556
     invoke-virtual {v0, v1}, Landroid/content/res/Resources;->getBoolean(I)Z
 
     move-result v0
@@ -3784,6 +3781,19 @@
     .restart local v4    # "dpm":Landroid/app/admin/DevicePolicyManager;
     :cond_1
     :try_start_1
+
+    move-object/from16 v25, p0
+
+    move-object/from16 v26, p1
+
+    move-object/from16 v27, p2
+
+    move/from16 v28, p3
+
+    move/from16 v29, p6
+
+    invoke-direct/range {v25 .. v29}, Lcom/android/internal/widget/LockPatternUtils;->saveFlymePasswordLength(Ljava/lang/String;Ljava/lang/String;II)V
+
     invoke-direct/range {p0 .. p0}, Lcom/android/internal/widget/LockPatternUtils;->getLockSettings()Lcom/android/internal/widget/ILockSettings;
 
     move-result-object v5
@@ -5134,49 +5144,39 @@
 
     if-eqz p2, :cond_0
 
-    .line 1573
     invoke-virtual {p1, v4}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 1580
     invoke-virtual {p0}, Lcom/android/internal/widget/LockPatternUtils;->isInCall()Z
 
     move-result v3
 
     if-eqz v3, :cond_2
 
-    .line 1582
-    const v2, 0x1040269
+    const v2, #android:string@lockscreen_return_to_call#t
 
-    .line 1583
     .local v2, "textId":I
     if-eqz p3, :cond_1
 
-    const v1, 0x1080084
+    const v1, #android:drawable@stat_sys_phone_call#t
 
-    .line 1584
     .local v1, "phoneCallIcon":I
     :goto_0
     invoke-virtual {p1, v1, v4, v4, v4}, Landroid/widget/Button;->setCompoundDrawablesWithIntrinsicBounds(IIII)V
 
-    .line 1590
     .end local v1    # "phoneCallIcon":I
     :goto_1
     invoke-virtual {p1, v2}, Landroid/widget/Button;->setText(I)V
 
-    .line 1571
     return-void
 
-    .line 1575
     .end local v2    # "textId":I
     :cond_0
     const/4 v3, 0x4
 
     invoke-virtual {p1, v3}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 1576
     return-void
 
-    .line 1583
     .restart local v2    # "textId":I
     :cond_1
     const/4 v1, 0x0
@@ -5184,26 +5184,22 @@
     .restart local v1    # "phoneCallIcon":I
     goto :goto_0
 
-    .line 1586
     .end local v1    # "phoneCallIcon":I
     .end local v2    # "textId":I
     :cond_2
-    const v2, 0x1040268
+    const v2, #android:string@lockscreen_emergency_call#t
 
-    .line 1587
     .restart local v2    # "textId":I
     if-eqz p3, :cond_3
 
-    const v0, 0x108033f
+    const v0, #android:drawable@ic_emergency#t
 
-    .line 1588
     .local v0, "emergencyIcon":I
     :goto_2
     invoke-virtual {p1, v0, v4, v4, v4}, Landroid/widget/Button;->setCompoundDrawablesWithIntrinsicBounds(IIII)V
 
     goto :goto_1
 
-    .line 1587
     .end local v0    # "emergencyIcon":I
     :cond_3
     const/4 v0, 0x0
@@ -5505,4 +5501,253 @@
     .restart local v1    # "response":Lcom/android/internal/widget/VerifyCredentialResponse;
     :cond_2
     return-object v4
+.end method
+
+.method private saveFlymePasswordLength(Ljava/lang/String;Ljava/lang/String;II)V
+    .locals 6
+    .param p1, "password"    # Ljava/lang/String;
+    .param p2, "savedPassword"    # Ljava/lang/String;
+    .param p3, "quality"    # I
+    .param p4, "userHandle"    # I
+
+    .prologue
+    invoke-static {p1}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    return-void
+
+    :cond_0
+    invoke-static {}, Landroid/os/UserHandle;->getCallingUserId()I
+
+    move-result v2
+
+    invoke-virtual {p0, p1, v2}, Lcom/android/internal/widget/LockPatternUtils;->passwordToHash(Ljava/lang/String;I)[B
+
+    move-result-object v1
+
+    .local v1, "hash":[B
+    :try_start_0
+    iget-object v2, p0, Lcom/android/internal/widget/LockPatternUtils;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v2}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v2
+
+    const-string v3, "meizu_password_fronts_four"
+
+    new-instance v4, Ljava/lang/String;
+
+    const-string v5, "UTF-8"
+
+    invoke-direct {v4, v1, v5}, Ljava/lang/String;-><init>([BLjava/lang/String;)V
+
+    invoke-static {v2, v3, v4, p4}, Landroid/provider/Settings$Secure;->putStringForUser(Landroid/content/ContentResolver;Ljava/lang/String;Ljava/lang/String;I)Z
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    :goto_0
+    const-string v2, "meizu_password_length"
+
+    invoke-virtual {p1}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    int-to-long v4, v3
+
+    invoke-direct {p0, v2, v4, v5, p4}, Lcom/android/internal/widget/LockPatternUtils;->setLong(Ljava/lang/String;JI)V
+
+    return-void
+
+    :catch_0
+    move-exception v0
+
+    .local v0, "e":Ljava/lang/Exception;
+    const-string v2, "LockPatternUtils"
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "save _pwd_front_four exception = "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v0}, Ljava/lang/Exception;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-static {v2, v3}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+
+    goto :goto_0
+.end method
+
+.method public checkFlymePassword(ILjava/lang/String;)Z
+    .locals 4
+    .param p1, "type"    # I
+    .param p2, "password"    # Ljava/lang/String;
+
+    .prologue
+    :try_start_0
+    new-instance v1, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;
+
+    invoke-direct {v1}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;-><init>()V
+
+    invoke-direct {p0}, Lcom/android/internal/widget/LockPatternUtils;->getLockSettings()Lcom/android/internal/widget/ILockSettings;
+
+    move-result-object v2
+
+    invoke-interface {v2}, Lcom/android/internal/widget/ILockSettings;->asBinder()Landroid/os/IBinder;
+
+    move-result-object v2
+
+    invoke-static {}, Landroid/app/ActivityManager;->getCurrentUser()I
+
+    move-result v3
+
+    invoke-virtual {v1, v2, p1, p2, v3}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;->checkFlymePassword(Landroid/os/IBinder;ILjava/lang/String;I)Z
+    :try_end_0
+    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    move-result v1
+
+    return v1
+
+    :catch_0
+    move-exception v0
+
+    .local v0, "re":Landroid/os/RemoteException;
+    const/4 v1, 0x0
+
+    return v1
+.end method
+
+.method public clearFlymePassword(I)Z
+    .locals 4
+    .param p1, "type"    # I
+
+    .prologue
+    :try_start_0
+    new-instance v1, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;
+
+    invoke-direct {v1}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;-><init>()V
+
+    invoke-direct {p0}, Lcom/android/internal/widget/LockPatternUtils;->getLockSettings()Lcom/android/internal/widget/ILockSettings;
+
+    move-result-object v2
+
+    invoke-interface {v2}, Lcom/android/internal/widget/ILockSettings;->asBinder()Landroid/os/IBinder;
+
+    move-result-object v2
+
+    invoke-static {}, Landroid/app/ActivityManager;->getCurrentUser()I
+
+    move-result v3
+
+    invoke-virtual {v1, v2, p1, v3}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;->clearFlymePassword(Landroid/os/IBinder;II)Z
+    :try_end_0
+    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    move-result v1
+
+    return v1
+
+    :catch_0
+    move-exception v0
+
+    .local v0, "re":Landroid/os/RemoteException;
+    const/4 v1, 0x0
+
+    return v1
+.end method
+
+.method public hasFlymePassword(I)Z
+    .locals 4
+    .param p1, "type"    # I
+
+    .prologue
+    :try_start_0
+    new-instance v1, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;
+
+    invoke-direct {v1}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;-><init>()V
+
+    invoke-direct {p0}, Lcom/android/internal/widget/LockPatternUtils;->getLockSettings()Lcom/android/internal/widget/ILockSettings;
+
+    move-result-object v2
+
+    invoke-interface {v2}, Lcom/android/internal/widget/ILockSettings;->asBinder()Landroid/os/IBinder;
+
+    move-result-object v2
+
+    invoke-static {}, Landroid/app/ActivityManager;->getCurrentUser()I
+
+    move-result v3
+
+    invoke-virtual {v1, v2, p1, v3}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;->hasFlymePassword(Landroid/os/IBinder;II)Z
+    :try_end_0
+    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    move-result v1
+
+    return v1
+
+    :catch_0
+    move-exception v0
+
+    .local v0, "re":Landroid/os/RemoteException;
+    const/4 v1, 0x0
+
+    return v1
+.end method
+
+.method public setFlymePassword(ILjava/lang/String;)Z
+    .locals 4
+    .param p1, "type"    # I
+    .param p2, "password"    # Ljava/lang/String;
+
+    .prologue
+    :try_start_0
+    new-instance v1, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;
+
+    invoke-direct {v1}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;-><init>()V
+
+    invoke-direct {p0}, Lcom/android/internal/widget/LockPatternUtils;->getLockSettings()Lcom/android/internal/widget/ILockSettings;
+
+    move-result-object v2
+
+    invoke-interface {v2}, Lcom/android/internal/widget/ILockSettings;->asBinder()Landroid/os/IBinder;
+
+    move-result-object v2
+
+    invoke-static {}, Landroid/app/ActivityManager;->getCurrentUser()I
+
+    move-result v3
+
+    invoke-virtual {v1, v2, p1, p2, v3}, Lcom/android/internal/widget/FlymeExtILockSettingsProxy;->setFlymePassword(Landroid/os/IBinder;ILjava/lang/String;I)Z
+    :try_end_0
+    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    move-result v1
+
+    return v1
+
+    :catch_0
+    move-exception v0
+
+    .local v0, "re":Landroid/os/RemoteException;
+    const/4 v1, 0x0
+
+    return v1
 .end method

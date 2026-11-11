@@ -1,6 +1,9 @@
 .class Lcom/android/server/fingerprint/FingerprintService$3;
-.super Landroid/hardware/fingerprint/IFingerprintDaemonCallback$Stub;
+.super Ljava/lang/Object;
 .source "FingerprintService.java"
+
+# interfaces
+.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -24,115 +27,25 @@
     .param p1, "this$0"    # Lcom/android/server/fingerprint/FingerprintService;
 
     .prologue
-    .line 690
+    .line 140
     iput-object p1, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
 
-    invoke-direct {p0}, Landroid/hardware/fingerprint/IFingerprintDaemonCallback$Stub;-><init>()V
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public onAcquired(JI)V
+.method public run()V
     .locals 1
-    .param p1, "deviceId"    # J
-    .param p3, "acquiredInfo"    # I
 
     .prologue
-    .line 699
+    .line 143
     iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
 
-    invoke-virtual {v0, p1, p2, p3}, Lcom/android/server/fingerprint/FingerprintService;->dispatchAcquired(JI)V
+    invoke-static {v0}, Lcom/android/server/fingerprint/FingerprintService;->-wrap6(Lcom/android/server/fingerprint/FingerprintService;)V
 
-    .line 698
-    return-void
-.end method
-
-.method public onAuthenticated(JII)V
-    .locals 1
-    .param p1, "deviceId"    # J
-    .param p3, "fingerId"    # I
-    .param p4, "groupId"    # I
-
-    .prologue
-    .line 704
-    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
-
-    invoke-virtual {v0, p1, p2, p3, p4}, Lcom/android/server/fingerprint/FingerprintService;->dispatchAuthenticated(JII)V
-
-    .line 703
-    return-void
-.end method
-
-.method public onEnrollResult(JIII)V
-    .locals 7
-    .param p1, "deviceId"    # J
-    .param p3, "fingerId"    # I
-    .param p4, "groupId"    # I
-    .param p5, "remaining"    # I
-
-    .prologue
-    .line 694
-    iget-object v1, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
-
-    move-wide v2, p1
-
-    move v4, p3
-
-    move v5, p4
-
-    move v6, p5
-
-    invoke-virtual/range {v1 .. v6}, Lcom/android/server/fingerprint/FingerprintService;->dispatchEnrollResult(JIII)V
-
-    .line 693
-    return-void
-.end method
-
-.method public onEnumerate(J[I[I)V
-    .locals 1
-    .param p1, "deviceId"    # J
-    .param p3, "fingerIds"    # [I
-    .param p4, "groupIds"    # [I
-
-    .prologue
-    .line 719
-    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
-
-    invoke-virtual {v0, p1, p2, p3, p4}, Lcom/android/server/fingerprint/FingerprintService;->dispatchEnumerate(J[I[I)V
-
-    .line 718
-    return-void
-.end method
-
-.method public onError(JI)V
-    .locals 1
-    .param p1, "deviceId"    # J
-    .param p3, "error"    # I
-
-    .prologue
-    .line 709
-    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
-
-    invoke-virtual {v0, p1, p2, p3}, Lcom/android/server/fingerprint/FingerprintService;->dispatchError(JI)V
-
-    .line 708
-    return-void
-.end method
-
-.method public onRemoved(JII)V
-    .locals 1
-    .param p1, "deviceId"    # J
-    .param p3, "fingerId"    # I
-    .param p4, "groupId"    # I
-
-    .prologue
-    .line 714
-    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$3;->this$0:Lcom/android/server/fingerprint/FingerprintService;
-
-    invoke-virtual {v0, p1, p2, p3, p4}, Lcom/android/server/fingerprint/FingerprintService;->dispatchRemoved(JII)V
-
-    .line 713
+    .line 142
     return-void
 .end method

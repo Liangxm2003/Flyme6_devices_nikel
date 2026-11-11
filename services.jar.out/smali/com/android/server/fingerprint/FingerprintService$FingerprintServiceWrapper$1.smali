@@ -45,7 +45,7 @@
     .param p7, "val$restricted"    # Z
 
     .prologue
-    .line 759
+    .line 895
     iput-object p1, p0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper$1;->this$1:Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper;
 
     iput-object p2, p0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper$1;->val$token:Landroid/os/IBinder;
@@ -71,7 +71,7 @@
     .locals 7
 
     .prologue
-    .line 762
+    .line 898
     iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper$1;->this$1:Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper;
 
     iget-object v0, v0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper;->this$0:Lcom/android/server/fingerprint/FingerprintService;
@@ -90,6 +90,6 @@
 
     invoke-virtual/range {v0 .. v6}, Lcom/android/server/fingerprint/FingerprintService;->startEnrollment(Landroid/os/IBinder;[BILandroid/hardware/fingerprint/IFingerprintServiceReceiver;IZ)V
 
-    .line 761
+    .line 897
     return-void
 .end method

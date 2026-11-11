@@ -10,6 +10,8 @@
 
 .field public static final EXTRA_NETWORK_TEMPLATE:Ljava/lang/String; = "android.net.NETWORK_TEMPLATE"
 
+.field public static final ACTION_SHOW_NETWORK_POLICY_NOTIFICATION:Ljava/lang/String; = "android.net.action.SHOW_NETWORK_POLICY_NOTIFICATION"
+
 .field public static final FIREWALL_CHAIN_DOZABLE:I = 0x1
 
 .field public static final FIREWALL_CHAIN_NAME_DOZABLE:Ljava/lang/String; = "dozable"
@@ -36,13 +38,29 @@
 
 .field public static final POLICY_NONE:I = 0x0
 
+.field public static final POLICY_REJECT_APP_BACKGROUND_NET_MOBILE:I = 0x100
+
+.field public static final POLICY_REJECT_APP_BACKGROUND_NET_WIFI:I = 0x80
+
+.field public static final POLICY_REJECT_APP_NET_MOBILE:I = 0x400
+
+.field public static final POLICY_REJECT_APP_NET_WIFI:I = 0x200
+
 .field public static final POLICY_REJECT_METERED_BACKGROUND:I = 0x1
 
 .field public static final RULE_ALLOW_ALL:I = 0x0
 
 .field public static final RULE_REJECT_ALL:I = 0x2
 
+.field public static final RULE_REJECT_BACKGROUND_MOBILE:I = 0x100
+
+.field public static final RULE_REJECT_BACKGROUND_WIFI:I = 0x80
+
 .field public static final RULE_REJECT_METERED:I = 0x1
+
+.field public static final RULE_REJECT_METERED_MOBILE:I = 0x400
+
+.field public static final RULE_REJECT_METERED_WIFI:I = 0x200
 
 
 # instance fields

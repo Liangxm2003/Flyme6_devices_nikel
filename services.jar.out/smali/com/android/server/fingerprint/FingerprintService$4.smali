@@ -1,11 +1,11 @@
 .class Lcom/android/server/fingerprint/FingerprintService$4;
-.super Landroid/app/IUserSwitchObserver$Stub;
+.super Landroid/hardware/fingerprint/IFingerprintDaemonCallback$Stub;
 .source "FingerprintService.java"
 
 
 # annotations
-.annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lcom/android/server/fingerprint/FingerprintService;->listenForUserSwitches()V
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lcom/android/server/fingerprint/FingerprintService;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -24,60 +24,177 @@
     .param p1, "this$0"    # Lcom/android/server/fingerprint/FingerprintService;
 
     .prologue
-    .line 948
+    .line 796
     iput-object p1, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
 
-    invoke-direct {p0}, Landroid/app/IUserSwitchObserver$Stub;-><init>()V
+    invoke-direct {p0}, Landroid/hardware/fingerprint/IFingerprintDaemonCallback$Stub;-><init>()V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public onForegroundProfileSwitch(I)V
-    .locals 0
-    .param p1, "newProfileId"    # I
-
-    .prologue
-    .line 959
-    return-void
-.end method
-
-.method public onUserSwitchComplete(I)V
-    .locals 0
-    .param p1, "newUserId"    # I
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Landroid/os/RemoteException;
-        }
-    .end annotation
-
-    .prologue
-    .line 955
-    return-void
-.end method
-
-.method public onUserSwitching(ILandroid/os/IRemoteCallback;)V
+.method public onAcquired(JI)V
     .locals 3
-    .param p1, "newUserId"    # I
-    .param p2, "reply"    # Landroid/os/IRemoteCallback;
+    .param p1, "deviceId"    # J
+    .param p3, "acquiredInfo"    # I
 
     .prologue
-    .line 951
+    .line 811
     iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
 
     iget-object v0, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
 
-    const/16 v1, 0xa
+    new-instance v1, Lcom/android/server/fingerprint/FingerprintService$4$2;
 
-    const/4 v2, 0x0
+    invoke-direct {v1, p0, p1, p2, p3}, Lcom/android/server/fingerprint/FingerprintService$4$2;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;JI)V
 
-    invoke-virtual {v0, v1, p1, v2}, Landroid/os/Handler;->obtainMessage(III)Landroid/os/Message;
+    invoke-virtual {v0, v1}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
 
-    move-result-object v0
+    .line 810
+    return-void
+.end method
 
-    invoke-virtual {v0}, Landroid/os/Message;->sendToTarget()V
+.method public onAuthenticated(JII)V
+    .locals 7
+    .param p1, "deviceId"    # J
+    .param p3, "fingerId"    # I
+    .param p4, "groupId"    # I
 
-    .line 950
+    .prologue
+    .line 821
+    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    iget-object v6, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
+
+    new-instance v0, Lcom/android/server/fingerprint/FingerprintService$4$3;
+
+    move-object v1, p0
+
+    move-wide v2, p1
+
+    move v4, p3
+
+    move v5, p4
+
+    invoke-direct/range {v0 .. v5}, Lcom/android/server/fingerprint/FingerprintService$4$3;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;JII)V
+
+    invoke-virtual {v6, v0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    .line 820
+    return-void
+.end method
+
+.method public onEnrollResult(JIII)V
+    .locals 9
+    .param p1, "deviceId"    # J
+    .param p3, "fingerId"    # I
+    .param p4, "groupId"    # I
+    .param p5, "remaining"    # I
+
+    .prologue
+    .line 801
+    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    iget-object v7, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
+
+    new-instance v0, Lcom/android/server/fingerprint/FingerprintService$4$1;
+
+    move-object v1, p0
+
+    move-wide v2, p1
+
+    move v4, p3
+
+    move v5, p4
+
+    move v6, p5
+
+    invoke-direct/range {v0 .. v6}, Lcom/android/server/fingerprint/FingerprintService$4$1;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;JIII)V
+
+    invoke-virtual {v7, v0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    .line 800
+    return-void
+.end method
+
+.method public onEnumerate(J[I[I)V
+    .locals 7
+    .param p1, "deviceId"    # J
+    .param p3, "fingerIds"    # [I
+    .param p4, "groupIds"    # [I
+
+    .prologue
+    .line 851
+    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    iget-object v6, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
+
+    new-instance v0, Lcom/android/server/fingerprint/FingerprintService$4$6;
+
+    move-object v1, p0
+
+    move-wide v2, p1
+
+    move-object v4, p3
+
+    move-object v5, p4
+
+    invoke-direct/range {v0 .. v5}, Lcom/android/server/fingerprint/FingerprintService$4$6;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;J[I[I)V
+
+    invoke-virtual {v6, v0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    .line 850
+    return-void
+.end method
+
+.method public onError(JI)V
+    .locals 3
+    .param p1, "deviceId"    # J
+    .param p3, "error"    # I
+
+    .prologue
+    .line 831
+    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    iget-object v0, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
+
+    new-instance v1, Lcom/android/server/fingerprint/FingerprintService$4$4;
+
+    invoke-direct {v1, p0, p1, p2, p3}, Lcom/android/server/fingerprint/FingerprintService$4$4;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;JI)V
+
+    invoke-virtual {v0, v1}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    .line 830
+    return-void
+.end method
+
+.method public onRemoved(JII)V
+    .locals 7
+    .param p1, "deviceId"    # J
+    .param p3, "fingerId"    # I
+    .param p4, "groupId"    # I
+
+    .prologue
+    .line 841
+    iget-object v0, p0, Lcom/android/server/fingerprint/FingerprintService$4;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    iget-object v6, v0, Lcom/android/server/fingerprint/FingerprintService;->mHandler:Landroid/os/Handler;
+
+    new-instance v0, Lcom/android/server/fingerprint/FingerprintService$4$5;
+
+    move-object v1, p0
+
+    move-wide v2, p1
+
+    move v4, p3
+
+    move v5, p4
+
+    invoke-direct/range {v0 .. v5}, Lcom/android/server/fingerprint/FingerprintService$4$5;-><init>(Lcom/android/server/fingerprint/FingerprintService$4;JII)V
+
+    invoke-virtual {v6, v0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    .line 840
     return-void
 .end method

@@ -384,6 +384,11 @@
 /data/thh(/.*)? u:object_r:teei_data_file:s0
 /data/gnss_flp(/.*)?  u:object_r:mtkFlpDaemon_data_file:s0
 
+/dev/socket/flymed      u:object_r:flymed_socket:s0
+/system/bin/flymed      u:object_r:flymed_exec:s0
+/data/system/users/[0-9]+/lock_wallpaper		u:object_r:wallpaper_file:s0
+/data/system/users/[0-9]+/smart_wallpaper_target		u:object_r:wallpaper_file:s0
+
 ##########################
 # Devices
 #
