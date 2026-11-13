@@ -49,12 +49,20 @@ vendor_modify_images := boot
 #-----------------------------------------------------------------------------
 #vendor_remove_files := bin/zchgd
 
+# 注意: Flyme TEE 版 keymaster/gatekeeper HAL 必须保留!
+# 之前以为 TEE 不可用而禁用, 实际根因是 /system/app/mcRegistry(TEE 信任模块)
+# 缺失(构建 app 拷贝规则跳过非 apk 目录, 已通过 vendor_saved_apps 修复)。
+# TEE 恢复后: Goodix 指纹 TA 验证录入令牌的 HMAC 签名(签名必须来自 TEE
+# keymaster/gatekeeper), 软件回退签出的令牌会被 TA 拒绝(GF_ERROR 1057/1058
+# UNTRUSTED_ENROLL 族), 导致指纹录入报"硬件无法使用"。故恢复 TEE HAL。
+#vendor_remove_files := bin/zchgd
+
 ##############################################################################
 # The value decides the vendor apk which you want to save in the vendor directory for the ota package.
 # The default value is Bluetooth.
 # You can configure the apk name in the vendor/system/app or vendor/system/priv-app directory.
 #-----------------------------------------------------------------------------
-vendor_saved_apps := Bluetooth BluetoothMidiService HTMLViewer KeyChain PrintSpooler UserDictionaryProvider BackupRestoreConfirmation DefaultContainerService ExternalStorageProvider FMRadio FusedLocation InputDevices ProxyHandler SharedStorageBackup Shell Stk1
+vendor_saved_apps := Bluetooth BluetoothMidiService HTMLViewer KeyChain PrintSpooler UserDictionaryProvider BackupRestoreConfirmation DefaultContainerService ExternalStorageProvider FMRadio FusedLocation InputDevices ProxyHandler SharedStorageBackup Shell Stk1 mcRegistry
 
 ##############################################################################
 # The value decides which vendor apk you want to modify.

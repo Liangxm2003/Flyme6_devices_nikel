@@ -605,6 +605,13 @@
     .prologue
     const/4 v0, 0x0
 
+    # 修复: 懒加载重试。开机时 fingerprintd 可能尚未注册或 openHal 失败,
+    # mHalDeviceId 会一直是 0 且原逻辑不重试, 导致设置里指纹入口永远不出现。
+    # 这里每次调用都尝试重新连接 fingerprintd 并 openHal。
+    iget-object v1, p0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper;->this$0:Lcom/android/server/fingerprint/FingerprintService;
+
+    invoke-virtual {v1}, Lcom/android/server/fingerprint/FingerprintService;->getFingerprintDaemon()Landroid/hardware/fingerprint/IFingerprintDaemon;
+
     .line 977
     iget-object v1, p0, Lcom/android/server/fingerprint/FingerprintService$FingerprintServiceWrapper;->this$0:Lcom/android/server/fingerprint/FingerprintService;
 
