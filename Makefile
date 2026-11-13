@@ -148,7 +148,8 @@ board_modify_apps := TeleService SystemUI Settings
 override_property += \
     ro.flyme.romer=NorthFish \
     ro.product.model_romer=HMNote4_NorthFish_Unofficial \
-    ro.product.device=nikel
+    ro.product.device=nikel \
+    gsm.version.baseband.2=MOLY.LR11.W1603.MD.MP.V13.18.P62
 
 ##############################################################################
 # The value decides which property you will remove from the build.prop.
